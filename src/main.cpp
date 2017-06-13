@@ -35,11 +35,11 @@ NAN_MODULE_INIT(init) {
       Nan::Set(target,
               Nan::New<v8::String>("createFifo").ToLocalChecked(),
               Nan::GetFunction(
-                  Nan::New<v8::FunctionTemplate>(createPipe)).ToLocalChecked());
+                  Nan::New<v8::FunctionTemplate>(createFifo)).ToLocalChecked());
       Nan::Set(target,
               Nan::New<v8::String>("unlinkFifo").ToLocalChecked(),
               Nan::GetFunction(
-                  Nan::New<v8::FunctionTemplate>(unlinkPipe)).ToLocalChecked());
+                  Nan::New<v8::FunctionTemplate>(unlinkFifo)).ToLocalChecked());
 }
 
 NODE_MODULE(loole, init)
