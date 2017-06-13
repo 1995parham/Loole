@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <string>
 #include <cstring>
@@ -16,13 +17,25 @@ Loole::Loole(const std::string& name, Nan::Callback *callback)
     this->errorMsg = "";
 }
 
+Loole::Loole(Nan::Callback *callback)
+    : AsyncWorker(callback) {
+    this->path = "";
+    this->errorMsg = "";
+}
+
 void Loole::unlink(const std::string& name) {
-    unlink(name.c_str());
+    ::unlink(name.c_str());
 }
 
 void Loole::Execute() {
     int status;
-    status = mkfifo(this->path.c_str(), 0777);
+    int fds[2];
+
+    if (this->path.empty()) {
+        status = pipe(fds);
+    } else {
+        status = mkfifo(this->path.c_str(), 0777);
+    }
     if (!status) {
         char buf[1024];
         if (!strerror_r(errno, buf, 1024)) {
