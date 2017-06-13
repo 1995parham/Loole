@@ -27,9 +27,6 @@ module.exports = {
       });
     });
   },
-  unlinkFifo(path) {
-    loole.unlinkFifo(path);
-  },
   createFifo(path, callback) {
     return new Promise((resolve, reject) => {
       loole.createFifo(path, (err) => {

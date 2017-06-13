@@ -31,28 +31,11 @@ NAN_METHOD(createPipe) {
     Nan::AsyncQueueWorker(new Loole(new Nan::Callback(callback)));
 }
 
-
-
-NAN_METHOD(unlinkFifo) {
-    if (!info[0]->IsString()) {
-        return Nan::ThrowError("name must be a string");
-    }
-    Nan::Utf8String name(info[0]);
-
-    Loole::unlink(*new std::string(*name));
-
-    info.GetReturnValue().SetUndefined();
-}
-
 NAN_MODULE_INIT(init) {
       Nan::Set(target,
               Nan::New<v8::String>("createFifo").ToLocalChecked(),
               Nan::GetFunction(
                   Nan::New<v8::FunctionTemplate>(createFifo)).ToLocalChecked());
-      Nan::Set(target,
-              Nan::New<v8::String>("unlinkFifo").ToLocalChecked(),
-              Nan::GetFunction(
-                  Nan::New<v8::FunctionTemplate>(unlinkFifo)).ToLocalChecked());
       Nan::Set(target,
               Nan::New<v8::String>("createPipe").ToLocalChecked(),
               Nan::GetFunction(

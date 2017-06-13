@@ -23,10 +23,6 @@ Loole::Loole(Nan::Callback *callback)
     this->errorMsg = "";
 }
 
-void Loole::unlink(const std::string& name) {
-    ::unlink(name.c_str());
-}
-
 void Loole::Execute() {
     int status;
 
