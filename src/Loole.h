@@ -10,7 +10,7 @@
 class Loole : public Nan::AsyncWorker {
  public:
      Loole(const std::string& name, Nan::Callback *callback);
-     Loole(Nan::Callback *callback);
+     explicit Loole(Nan::Callback *callback);
 
      void Execute();
 
@@ -20,6 +20,7 @@ class Loole : public Nan::AsyncWorker {
  private:
      std::string path;
      std::string errorMsg;
+     int fds[2];
 };
 
 #endif  // SRC_LOOLE_H_
