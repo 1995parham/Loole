@@ -16,6 +16,7 @@ class Loole : public Nan::AsyncWorker {
      void HandleOKCallback();
  private:
      std::string path;
+     int error;
 };
 
 #endif  // SRC_LOOLE_H_
