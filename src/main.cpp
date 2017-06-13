@@ -29,6 +29,8 @@ NAN_METHOD(unlinkFifo) {
     Nan::Utf8String name(info[0]);
 
     Loole::unlink(*new std::string(*name));
+
+    info.GetReturnValue().SetUndefined();
 }
 
 NAN_MODULE_INIT(init) {
