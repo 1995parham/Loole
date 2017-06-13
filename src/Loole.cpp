@@ -16,6 +16,10 @@ Loole::Loole(const std::string& name, Nan::Callback *callback)
     this->errorMsg = "";
 }
 
+void Loole::unlink(const std::string& name) {
+    unlink(name.c_str());
+}
+
 void Loole::Execute() {
     int status;
     status = mkfifo(this->path.c_str(), 0777);

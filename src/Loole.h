@@ -14,6 +14,8 @@ class Loole : public Nan::AsyncWorker {
      void Execute();
 
      void HandleOKCallback();
+
+     static void unlink(const std::string& name);
  private:
      std::string path;
      std::string errorMsg;

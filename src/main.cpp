@@ -3,10 +3,11 @@
 #include "Loole.h"
 
 #include <nan.h>
+#include <stdio.h>
 
 #include <string>
 
-NAN_METHOD(createPipe) {
+NAN_METHOD(createFifo) {
     if (!info[0]->IsString()) {
         return Nan::ThrowError("name must be a string");
     }
@@ -21,11 +22,24 @@ NAN_METHOD(createPipe) {
                 new Nan::Callback(callback)));
 }
 
+NAN_METHOD(unlinkFifo) {
+    if (!info[0]->IsString()) {
+        return Nan::ThrowError("name must be a string");
+    }
+    Nan::Utf8String name(info[0]);
+
+    Loole::unlink(*new std::string(*name));
+}
+
 NAN_MODULE_INIT(init) {
       Nan::Set(target,
-              Nan::New<v8::String>("createPipe").ToLocalChecked(),
+              Nan::New<v8::String>("createFifo").ToLocalChecked(),
               Nan::GetFunction(
                   Nan::New<v8::FunctionTemplate>(createPipe)).ToLocalChecked());
+      Nan::Set(target,
+              Nan::New<v8::String>("unlinkFifo").ToLocalChecked(),
+              Nan::GetFunction(
+                  Nan::New<v8::FunctionTemplate>(unlinkPipe)).ToLocalChecked());
 }
 
 NODE_MODULE(loole, init)
