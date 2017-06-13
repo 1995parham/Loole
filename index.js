@@ -10,7 +10,10 @@
 const loole = require('./build/Release/loole');
 
 module.exports = {
-  createPipe(path, callback) {
+  unlinkFifo(path) {
+    loole.unlinkPipe(path);
+  },
+  createFifo(path, callback) {
     return new Promise((resolve, reject) => {
       loole.createPipe(path, (err) => {
         if (err) {
