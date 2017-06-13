@@ -11,11 +11,11 @@ const loole = require('./build/Release/loole');
 
 module.exports = {
   unlinkFifo(path) {
-    loole.unlinkPipe(path);
+    loole.unlinkFifo(path);
   },
   createFifo(path, callback) {
     return new Promise((resolve, reject) => {
-      loole.createPipe(path, (err) => {
+      loole.createFifo(path, (err) => {
         if (err) {
           if (callback) {
             callback(err);
