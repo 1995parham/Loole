@@ -10,6 +10,7 @@
 class Loole : public Nan::AsyncWorker {
  public:
      Loole(const std::string& name, Nan::Callback *callback);
+     Loole(Nan::Callback *callback);
 
      void Execute();
 
