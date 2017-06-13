@@ -22,6 +22,17 @@ NAN_METHOD(createFifo) {
                 new Nan::Callback(callback)));
 }
 
+NAN_METHOD(createPipe) {
+    if (!info[0]->IsFunction()) {
+        return Nan::ThrowError("callback must be a function");
+    }
+    v8::Local<v8::Function> callback = info[0].As<v8::Function>();
+
+    Nan::AsyncQueueWorker(new Loole(new Nan::Callback(callback)));
+}
+
+
+
 NAN_METHOD(unlinkFifo) {
     if (!info[0]->IsString()) {
         return Nan::ThrowError("name must be a string");
@@ -42,6 +53,10 @@ NAN_MODULE_INIT(init) {
               Nan::New<v8::String>("unlinkFifo").ToLocalChecked(),
               Nan::GetFunction(
                   Nan::New<v8::FunctionTemplate>(unlinkFifo)).ToLocalChecked());
+      Nan::Set(target,
+              Nan::New<v8::String>("createPipe").ToLocalChecked(),
+              Nan::GetFunction(
+                  Nan::New<v8::FunctionTemplate>(createPipe)).ToLocalChecked());
 }
 
 NODE_MODULE(loole, init)
