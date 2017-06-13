@@ -1,6 +1,7 @@
 {
 	"targets": [{
 		"target_name": "loole",
-		"sources": [ "loole/*.cpp" ]
-	}
+		"sources": [ "src/*.cpp" ],
+		"include_dirs" : ["<!(node -e \"require('nan')\")"]
+	}]
 }
