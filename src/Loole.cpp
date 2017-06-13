@@ -31,7 +31,7 @@ void Loole::Execute() {
 void Loole::HandleOKCallback() {
     if (!this->errorMsg.empty()) {
         v8::Local<v8::Value> argv[] = {
-            Nan::Error("mknod failed")
+            Nan::Error(this->errorMsg.c_str())
         };
         this->callback->Call(1, argv);
     } else {
