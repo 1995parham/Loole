@@ -19,10 +19,11 @@ module.exports = {
           }
           return reject(err);
         }
+        fds = [fd1, fd2];
         if (callback) {
-          callback(null, fd1, fd2);
+          callback(null, fds);
         }
-        return resolve(fd1, fd2);
+        return resolve(fds);
       });
     });
   },
