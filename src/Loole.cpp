@@ -9,15 +9,32 @@
 #include <unistd.h>
 
 #include <string>
+#include <cstring>
 
-Loole::Loole(const std::string& name, Nan::Callback *callback) : AsyncWorker(callback) {
+Loole::Loole(const std::string& name, Nan::Callback *callback)
+    : AsyncWorker(callback) {
     this->path = name;
+    this->errorMsg = "";
 }
 
 void Loole::Execute() {
-    mknod(this->path.c_str(), S_IFIFO, 0);
+    int status;
+    status = mknod(this->path.c_str(), S_IFIFO, 0);
+    if (!status) {
+        char buf[1024];
+        if (!strerror_r(errno, buf, 1024)) {
+            this->errorMsg = std::string(buf);
+        }
+    }
 }
 
 void Loole::HandleOKCallback() {
-    this->callback->Call(0, NULL);
+    if (!this->errorMsg.empty()) {
+        v8::Local<v8::Value> argv[] = {
+            Nan::Error("mknod failed")
+        };
+        this->callback->Call(1, argv);
+    } else {
+        this->callback->Call(0, NULL);
+    }
 }
