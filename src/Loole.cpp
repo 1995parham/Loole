@@ -29,10 +29,9 @@ void Loole::unlink(const std::string& name) {
 
 void Loole::Execute() {
     int status;
-    int fds[2];
 
     if (this->path.empty()) {
-        status = pipe(fds);
+        status = pipe(this->fds);
     } else {
         status = mkfifo(this->path.c_str(), 0777);
     }
@@ -50,7 +49,17 @@ void Loole::HandleOKCallback() {
             Nan::Error(this->errorMsg.c_str())
         };
         this->callback->Call(1, argv);
+    } else if (!this->path.empty()) {
+        v8::Local<v8::Value> argv[] = {
+            Nan::Null()
+        };
+        this->callback->Call(1, argv);
     } else {
-        this->callback->Call(0, NULL);
+        v8::Local<v8::Value> argv[] = {
+            Nan::Null(),
+            Nan::New<v8::Number>(this->fds[0]),
+            Nan::New<v8::Number>(this->fds[1])
+        };
+        this->callback->Call(3, argv);
     }
 }
